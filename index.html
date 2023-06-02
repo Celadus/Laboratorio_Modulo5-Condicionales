@@ -1,0 +1,57 @@
+<!--
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="stylesheet" href="/src/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + TS</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Juego de las siete media</h1>
+      <div class="buttonDeJuego"><button onclick="pideCarta()">Pide una carta</button></div>
+      <div id="carta"></div>
+      <div id="puntuacion"></div>
+      <img id="imagenCarta" src="/src/carte/back.jpg" alt="Carta">
+      
+      <div class="buttonDeJuego">
+          <button id="terminarJuego" onclick="terminarJuego()">Terminar juego</button>
+          <button id="nuevaPartida" onclick="nuevaPartida()">Nueva partida</button>
+      </div>
+      
+      
+      
+     
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
+-->
+<!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+      <link rel="stylesheet" href="/src/style.css">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Vite + TS</title>
+    </head>
+    <body>
+      <div id="app">
+        <h1>Juego de las siete media</h1>
+        <div id="score">Puntuación: 0</div>
+        <div id="card-container">
+          <img id="card-img" src="https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg" alt="Carta boca abajo">
+        </div>
+        <div class="button-container">
+          <button class="button3d" id="btn-pedir">Pedir Carta</button>
+          <button class="button3d" id="btn-plantarse">Plantarse</button>
+          <button class="button3d" id="btn-nueva-partida">Nueva Partida</button>
+          <button class="button3d" id="btn-historial">Historial</button>
+        </div>   
+      </div>
+      <script type="module" src="/src/main.ts"></script>
+    </body>
+  </html>
