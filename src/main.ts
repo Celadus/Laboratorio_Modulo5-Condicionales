@@ -1,10 +1,10 @@
 import "./style.css";
 
-// Variabili
+// Variabili - variables
 let score: number = 0;
 let gameOver: boolean = false;
 
-// Elementi del DOM
+// Elementi del DOM - elementos del DOM
 const scoreElement: HTMLElement = document.getElementById('score')!;
 const cardImg: HTMLImageElement = document.getElementById('card-img') as HTMLImageElement;
 const btnPedir: HTMLButtonElement = document.getElementById('btn-pedir') as HTMLButtonElement;
@@ -12,7 +12,7 @@ const btnPlantarse: HTMLButtonElement = document.getElementById('btn-plantarse')
 const btnNuevaPartida: HTMLButtonElement = document.getElementById('btn-nueva-partida') as HTMLButtonElement;
 const btnHistorial: HTMLButtonElement = document.getElementById('btn-historial') as HTMLButtonElement;
 
-// Funzioni
+// Funzioni - funciones
 function muestraPuntuacion(): void {
   scoreElement.textContent = `Puntuación: ${score}`;
 }
@@ -97,7 +97,7 @@ function evaluarResultado(): void {
   }
 }
 
-// Event listeners
+// Event listeners per gestire eventi nel DOM - event listeners para manejar eventos en el DOM
 document.addEventListener('DOMContentLoaded', function() {
   muestraPuntuacion();
 });
