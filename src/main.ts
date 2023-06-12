@@ -2,76 +2,112 @@ import "./style.css";
 
 // Variabili - variables
 let score: number = 0;
-let gameOver: boolean = false;
+
 
 // Elementi del DOM - elementos del DOM
-const scoreElement: HTMLElement = document.getElementById('score')!;
-const cardImg: HTMLImageElement = document.getElementById('card-img') as HTMLImageElement;
-const btnPedir: HTMLButtonElement = document.getElementById('btn-pedir') as HTMLButtonElement;
-const btnPlantarse: HTMLButtonElement = document.getElementById('btn-plantarse') as HTMLButtonElement;
-const btnNuevaPartida: HTMLButtonElement = document.getElementById('btn-nueva-partida') as HTMLButtonElement;
-const btnHistorial: HTMLButtonElement = document.getElementById('btn-historial') as HTMLButtonElement;
+const scoreElement: HTMLElement = document.getElementById('score');
+const btnPedir: HTMLButtonElement = document.getElementById('btn-pedir');
+const btnPlantarse: HTMLButtonElement = document.getElementById('btn-plantarse');
+const btnNuevaPartida: HTMLButtonElement = document.getElementById('btn-nueva-partida');
+const btnHistorial: HTMLButtonElement = document.getElementById('btn-historial');
 
 // Funzioni - funciones
 function muestraPuntuacion(): void {
   scoreElement.textContent = `Puntuación: ${score}`;
 }
 
-function dameCarta(): number {
-  if (gameOver) return 0;
-
-  const carta: number = Math.floor(Math.random() * 10) + 1;
-  return carta > 7 ? carta + 2 : carta;
+function damenumeroaleatorio(): number{
+  return Math.floor(Math.random() * 10) + 1;
 }
 
-function mostrarCarta(carta: number): void {
-  let imgUrl: string;
+function obtenernumerodecarta(numeroaleatorio:number): number{
+  return numeroaleatorio > 7 ? numeroaleatorio + 2 : numeroaleatorio;
+}
+
+
+
+
+
+function obtenerurlcarta(carta: number): string {
+  let imgUrl: string= 'https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas';
   switch (carta) {
     case 1:
-      imgUrl = 'https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/1_as-copas.jpg';
+      imgUrl+= '/1_as-copas.jpg'
       break;
     case 2:
-      imgUrl = 'https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/2_dos-copas.jpg';
+      imgUrl += '/2_dos-copas.jpg';
       break;
     case 3:
-      imgUrl = 'https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/3_tres-copas.jpg';
+      imgUrl += '/3_tres-copas.jpg';
       break;
     case 4:
-      imgUrl = 'https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/4_cuatro-copas.jpg';
+      imgUrl += '/4_cuatro-copas.jpg';
       break;
     case 5:
-      imgUrl = 'https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/5_cinco-copas.jpg';
+      imgUrl += '/5_cinco-copas.jpg';
       break;
     case 6:
-      imgUrl = 'https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/6_seis-copas.jpg';
+      imgUrl += '/6_seis-copas.jpg';
       break;
     case 7:
-      imgUrl = 'https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/7_siete-copas.jpg';
+      imgUrl += '/7_siete-copas.jpg';
       break;
     case 10:
-      imgUrl = 'https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/10_sota-copas.jpg';
+      imgUrl += '/10_sota-copas.jpg';
       break;
     case 11:
-      imgUrl = 'https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/11_caballo-copas.jpg';
+      imgUrl += '/11_caballo-copas.jpg';
       break;
     case 12:
-      imgUrl = 'https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/12_rey-copas.jpg';
+      imgUrl += '/12_rey-copas.jpg';
       break;
     default:
-      imgUrl = 'https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg';
+      imgUrl += '/back.jpg';
       break;
   }
 
-  cardImg.src = imgUrl;
+  return imgUrl
 }
 
-function sumaPuntuacion(carta: number): void {
-  score += carta;
-  muestraPuntuacion();
+function mostrarCarta(carta:number){
+  const urlcarta=obtenerurlcarta(carta);
+  const elementoimg=document.getElementById("card-img");
+  if (elementoimg && elementoimg instanceof HTMLImageElement){
+    elementoimg.src = urlcarta;
+  }
+}
+
+function dameCarta(): void {
+  const numeroaleatorio=damenumeroaleatorio();
+  const carta=obtenernumerodecarta(numeroaleatorio);
+  mostrarCarta(carta);
+  const puntos=damePuntuacion(carta);
+  sumaPuntuacion(puntos);
+}
+
+
+
+function damePuntuacion (carta: number){
+  return carta <= 7 ? carta : 0.5
+}
+
+function sumaPuntuacion(puntos: number): void {
+  score += puntos;
+}
+
+function win(){
+  if (score == 7.5) {
+  document.getElementById('score').innerHTML= "Great: You Win!!!";
+  }
+}
+
+function lose(){
+  if (score > 7.5) {
+    document.getElementById('score').innerHTML = "You Lose - Game Over";
+  }
 }
 
 function gameOverMessage(): void {
-  gameOver = true;
   btnPedir.disabled = true;
   btnPlantarse.disabled = true;
   btnNuevaPartida.disabled = false;
@@ -102,22 +138,27 @@ document.addEventListener('DOMContentLoaded', function() {
   muestraPuntuacion();
 });
 
-btnPedir.addEventListener('click', function() {
-  const carta: number = dameCarta();
-  console.log('Carta:', carta);
-  mostrarCarta(carta);
-  sumaPuntuacion(carta);
-  checkGameOver();
-});
+if (btnPedir!== null && btnPedir!== undefined && btnPedir instanceof HTMLButtonElement){
+  btnPedir.addEventListener('click', function() {
+ 
+    /*console.log('Carta:', carta);
+    mostrarCarta(carta);
+    sumaPuntuacion(carta);
+    checkGameOver();*/
+  });
+}
 
-btnPlantarse.addEventListener('click', function() {
+
+if (btnPlantarse!== null && btnPlantarse!== undefined && btnPlantarse instanceof HTMLButtonElement){
+  btnPlantarse.addEventListener('click', function() {
   evaluarResultado();
   gameOverMessage();
 });
+}
 
-btnNuevaPartida.addEventListener('click', function() {
+if (btnNuevaPartida!== null && btnNuevaPardita!== undefined && btnNuevaPardita instanceof HTMLButtonElement){
+  btnNuevaPartida.addEventListener('click', function() {
   score = 0;
-  gameOver = false;
   muestraPuntuacion();
   cardImg.src = 'https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg';
   btnPedir.disabled = false;
@@ -125,7 +166,12 @@ btnNuevaPartida.addEventListener('click', function() {
   btnNuevaPartida.disabled = true;
   btnHistorial.disabled = true;
 });
+}
+  /*gameOver = false;*/
+  
 
-btnHistorial.addEventListener('click', function() {
+if (btnHistorial!== null && btnHistorial!== undefined && btnHistorial instanceof HTMLButtonElement){
+  btnHistorial.addEventListener('click', function() {
   evaluarResultado();
 });
+}
