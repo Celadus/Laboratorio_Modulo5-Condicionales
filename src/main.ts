@@ -95,15 +95,16 @@ function sumaPuntuacion(puntos: number): void {
   score += puntos;
 }
 
-function win(){
-  if (score == 7.5) {
-  document.getElementById('score').innerHTML= "Great: You Win!!!";
+function win (){
+  if (score == 7.5 && scoreElement!== null) {
+    
+    scoreElement.innerHTML = "Great: You Win!!!";
   }
 }
 
-function lose(){
-  if (score > 7.5) {
-    document.getElementById('score').innerHTML = "You Lose - Game Over";
+function lose (){
+  if (score > 7.5 && scoreElement!== null) {
+    scoreElement.innerHTML = "You Lose - Game Over";
   }
 }
 
@@ -156,7 +157,7 @@ if (btnPlantarse!== null && btnPlantarse!== undefined && btnPlantarse instanceof
 });
 }
 
-if (btnNuevaPartida!== null && btnNuevaPardita!== undefined && btnNuevaPardita instanceof HTMLButtonElement){
+if (btnNuevaPartida!== null && btnNuevaPartida!== undefined && btnNuevaPartida instanceof HTMLButtonElement){
   btnNuevaPartida.addEventListener('click', function() {
   score = 0;
   muestraPuntuacion();
