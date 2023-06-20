@@ -1,7 +1,7 @@
 import "./style.css";
 
 // Variabili - variables
-let score: number = 0;
+let puntosTotales: number = 0;
 
 
 // Elementi del DOM - elementos del DOM
@@ -13,11 +13,11 @@ const btnHistorial = document.getElementById('btn_historial');
 
 // Funzioni - funciones
 
-function damenumeroaleatorio(): number{
+function dameNumeroAleatorio (): number{
   return Math.floor(Math.random() * 10) + 1;
 }
 
-function obtenernumerodecarta(numeroaleatorio:number): number{
+function obtenerNumeroDeCarta (numeroaleatorio: number): number{
   return numeroaleatorio > 7 ? numeroaleatorio + 2 : numeroaleatorio;
 }
 
@@ -25,7 +25,7 @@ function obtenernumerodecarta(numeroaleatorio:number): number{
 
 
 
-function obtenerurlcarta(carta: number): string {
+function obtenerUrlCarta (carta: number): string {
   let imgUrl: string= 'https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas';
   switch (carta) {
     case 1:
@@ -66,149 +66,142 @@ function obtenerurlcarta(carta: number): string {
   return imgUrl
 }
 
-function mostrarCarta(carta:number){
-  const urlcarta=obtenerurlcarta(carta);
-  const elementoimg=document.getElementById("card-img");
-  if (elementoimg && elementoimg instanceof HTMLImageElement){
-    elementoimg.src = urlcarta;
+function mostrarCarta (carta: number) {
+  const urlCarta = obtenerUrlCarta(carta);
+  const elementoImg = document.getElementById("card-img");
+  if (elementoImg && elementoImg instanceof HTMLImageElement){
+    elementoImg.src = urlCarta;
   }
 }
 
-function dameCarta(): void {
-  const numeroaleatorio=damenumeroaleatorio();
-  const carta=obtenernumerodecarta(numeroaleatorio);
+function dameCarta (): void {
+  const numeroAleatorio = dameNumeroAleatorio();
+  const carta = obtenerNumeroDeCarta(numeroAleatorio);
   mostrarCarta(carta);
-  const puntos=damePuntuacion(carta);
+  const puntos = damePuntuacion(carta);
   sumaPuntuacion(puntos);
-  finaldelamano()
+  finalDeLaMano()
   
 }
 
-function nuevapartida(){
-  score = 0;
-  mostrarmensaje ('')
-  mostrarCarta(0)
-  deshabilitarBotonHistorial(false);
-  deshabilitarBotonNuevaPartida(true);
-  deshabilitarBotonPedirCarta(false);
-  deshabilitarBotonPlantarse(true);
+function invocarBotones (valorHistorial: boolean, valorNuevaPartida: boolean, valorPedirCarta: boolean, valorPlantarse: boolean) {
+  deshabilitarBotonHistorial(valorHistorial);
+  deshabilitarBotonNuevaPartida(valorNuevaPartida);
+  deshabilitarBotonPedirCarta(valorPedirCarta);
+  deshabilitarBotonPlantarse(valorPlantarse);
+}
+
+
+function nuevaPartida () {
+  puntosTotales = 0;
+  mostrarMensaje ('');
+  mostrarCarta(0);
+  invocarBotones(true, false, false, false);
 
 }
 
-function plantarse(){
-mostrarresultadomeèplantado()
-deshabilitarBotonPedirCarta(true);
-deshabilitarBotonPlantarse(true);
-deshabilitarBotonHistorial(false);
+function plantarse () {
+mostrarResultadoMeèPlantado();
+invocarBotones (false, false, true, false);
 }
 
-function mostrarmensaje(mensaje: string){
-  const elementopuntuacion = document.getElementById("score");
-  if (elementopuntuacion !== null && elementopuntuacion !== undefined && elementopuntuacion instanceof HTMLDivElement){
-    elementopuntuacion.innerText = mensaje
+function mostrarMensaje (mensaje: string) {
+  const elementoPuntuacion = document.getElementById("score");
+  if (elementoPuntuacion !== null && elementoPuntuacion !== undefined && elementoPuntuacion instanceof HTMLDivElement){
+    elementoPuntuacion.innerText = mensaje
   }
 
 }
 
-function revisarmano(){
-  if (score === 7.5 ) {
+function revisarMano () {
+  if (puntosTotales === 7.5 ) {
     ganarPartida()
   }
-  if ( score > 7.5 ) {
+  if ( puntosTotales > 7.5 ) {
    gameOver();
   }
 }
 
-function ganarPartida (){
-  mostrarmensaje (`¡ Lo has clavado! ¡Enhorabuena ! ${score}`);
-  deshabilitarBotonPedirCarta (true);
-  deshabilitarBotonNuevaPartida(false);
-  deshabilitarBotonPlantarse (true);
-  deshabilitarBotonHistorial (true);
+function ganarPartida () {
+  mostrarMensaje (`¡ Lo has clavado! ¡Enhorabuena ! ${puntosTotales}`);
+  invocarBotones (true, false, true, true)
 }
 
-function gameOver (){
-  mostrarmensaje (`Game Over! ${score}`);
-  deshabilitarBotonPedirCarta (true);
-  deshabilitarBotonNuevaPartida(false);
-  deshabilitarBotonPlantarse (true);
+function gameOver () {
+  mostrarMensaje (`Game Over! ${puntosTotales}`);
+  invocarBotones(true, false, true, true);
 }
 
-function finaldelamano(){
-  mostrarmensaje(`${score}`)
-  revisarmano()
+function finalDeLaMano () {
+  mostrarMensaje(`${puntosTotales}`)
+  revisarMano()
 }
 
 function damePuntuacion (carta: number){
   return carta <= 7 ? carta : 0.5
 }
 
-function sumaPuntuacion(puntos: number): void {
-  score += puntos;
+function sumaPuntuacion (puntos: number): void {
+  puntosTotales += puntos;
 }
 
 
-function mostrarresultadomeèplantado(): void {
-  if (score < 4) {
-    mostrarmensaje(`¡ Has sido muy conservador! ¡Enhorabuena ! ${score}`);
-  } else if (score < 6) {
-    mostrarmensaje(`Te ha entrado el canguelo eh? ${score}`);
-  } else if (score <= 7) {
-    mostrarmensaje(`Casi casi... ${score}`);
-  } else if (score <= 7) {
-  } else if (score === 7.5) {
-    mostrarmensaje('¡Lo has clavado! ¡Enhorabuena!');
+function mostrarResultadoMeèPlantado (): void {
+  if (puntosTotales < 4) {
+    mostrarMensaje(`¡ Has sido muy conservador! ¡Enhorabuena ! ${puntosTotales}`);
+  } else if (puntosTotales >= 4 &&  puntosTotales < 6) {
+    mostrarMensaje(`Te ha entrado el canguelo eh? ${puntosTotales}`);
+  } else if (puntosTotales >= 6 && puntosTotales <= 7) {
+    mostrarMensaje(`Casi casi... ${puntosTotales}`);
+  } else if (puntosTotales === 7.5) {
+    mostrarMensaje('¡Lo has clavado! ¡Enhorabuena!');
   }
 }
 
-function historial(){
-  const numeroaleatorio=damenumeroaleatorio();
-  const carta=obtenernumerodecarta(numeroaleatorio);
+function historial () {
+  const numeroAleatorio = dameNumeroAleatorio();
+  const carta = obtenerNumeroDeCarta(numeroAleatorio);
   mostrarCarta(carta);
   const puntos=damePuntuacion(carta);
   sumaPuntuacion(puntos);
-  monstrarmensajefuturo(score);
-  deshabilitarBotonNuevaPartida (false);
-  deshabilitarBotonPedirCarta(false);
-  deshabilitarBotonHistorial(true);
-  deshabilitarBotonPlantarse(false);
-
+  monstrarMensajeFuturo(puntosTotales);
+  invocarBotones (true, false, false, false);
 }
 
-function monstrarmensajefuturo (score : number) {
-  if (score === 7.5) {
-    mostrarmensaje(`Habrías ganado el juego ${score}`)
+function monstrarMensajeFuturo (puntosTotales: number) {
+  if (puntosTotales === 7.5) {
+    mostrarMensaje(`Habrías ganado el juego ${puntosTotales}`)
   }
-  if (score <7.5) {
-    mostrarmensaje(`No habrías ganado pero estarías cerca de ganar ${score}`)
+  if (puntosTotales <7.5) {
+    mostrarMensaje(`No habrías ganado pero estarías cerca de ganar ${puntosTotales}`)
   } else {
-  mostrarmensaje(`Habrias perdido! ${score}`)
+  mostrarMensaje(`Habrias perdido! ${puntosTotales}`)
   }
 
 }
 
-function deshabilitarBotonPedirCarta (estadeshabilitado : boolean) {
+function deshabilitarBotonPedirCarta (estadeshabilitado: boolean) {
 const botonPedir = document.getElementById("btn_pedir");
 if (botonPedir !== null && botonPedir !== undefined && botonPedir instanceof HTMLButtonElement){
   botonPedir.disabled = estadeshabilitado
 }
 }
 
-function deshabilitarBotonNuevaPartida (estadeshabilitado : boolean) {
+function deshabilitarBotonNuevaPartida (estadeshabilitado: boolean) {
   const botonNuevaPartida = document.getElementById ("btn_nueva_partida");
   if (botonNuevaPartida !== null && botonNuevaPartida !== undefined && botonNuevaPartida instanceof HTMLButtonElement){
     botonNuevaPartida.disabled = estadeshabilitado
   }
 }
 
-function deshabilitarBotonPlantarse (estadeshabilitado : boolean ) {
+function deshabilitarBotonPlantarse (estadeshabilitado: boolean ) {
   const botonPlantarse = document.getElementById ("btn_plantarse");
   if (botonPlantarse !== null && botonPlantarse !== undefined && botonPlantarse instanceof HTMLButtonElement){
     botonPlantarse.disabled = estadeshabilitado
   }
 }
 
-function deshabilitarBotonHistorial (estadeshabilitado : boolean) {
+function deshabilitarBotonHistorial (estadeshabilitado: boolean) {
 const botonHistorial = document.getElementById("btn_historial");
 if (botonHistorial !== null && botonHistorial !== undefined && botonHistorial instanceof HTMLButtonElement){
   botonHistorial.disabled = estadeshabilitado
@@ -225,14 +218,12 @@ if (btnPedir !== null && btnPedir !== undefined && btnPedir instanceof HTMLButto
 }
 
 if (btnNuevaPartida !== null && btnNuevaPartida !== undefined && btnNuevaPartida instanceof HTMLButtonElement){
-  btnNuevaPartida.addEventListener('click', nuevapartida);
+  btnNuevaPartida.addEventListener('click', nuevaPartida);
 }
 
 if (btnPlantarse !== null && btnPlantarse !== undefined && btnPlantarse instanceof HTMLButtonElement){
   btnPlantarse.addEventListener('click', plantarse);
 }
-
-
 
 if (btnHistorial !== null && btnHistorial !== undefined && btnHistorial instanceof HTMLButtonElement){
   btnHistorial.addEventListener('click', historial);
