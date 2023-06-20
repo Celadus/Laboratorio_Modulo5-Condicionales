@@ -168,10 +168,10 @@ function historial(){
   const puntos=damePuntuacion(carta);
   sumaPuntuacion(puntos);
   monstrarmensajefuturo(score);
-  deshabilitarBotonNuevaPartida (true);
-  deshabilitarBotonPedirCarta(true);
+  deshabilitarBotonNuevaPartida (false);
+  deshabilitarBotonPedirCarta(false);
   deshabilitarBotonHistorial(true);
-  deshabilitarBotonPlantarse(true);
+  deshabilitarBotonPlantarse(false);
 
 }
 
